@@ -8,9 +8,12 @@ import Details from './pages/DetailsPage';
 function App() {
   return (
     <Router>
-      <div style={{ display: 'flex' }}>
-        <Navigation />
-        <div style={{ flex: 1 }}>
+      <div style={{ position: 'relative', minHeight: '100vh' }}>
+        <Navigation style={{ zIndex: 2 }} />
+        <div style={{ position: 'absolute', top: 0, right: 0, width: '82vw', height: '7vh', backgroundColor: 'palegreen', color: 'black', textAlign: 'center', paddingTop: '2vh', zIndex: 1  }}>
+          Banner Content. Maybe not to neccessary.
+        </div>
+        <div style={{ marginLeft: '15vw', marginTop: '10vh', padding: '20px' }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -23,3 +26,4 @@ function App() {
 }
 
 export default App;
+
