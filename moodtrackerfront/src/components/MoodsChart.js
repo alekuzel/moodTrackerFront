@@ -4,39 +4,66 @@ import Chart from 'chart.js/auto';
 
 function MoodsChart() {
   const [moodData, setMoodData] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState(new Date()); // Initially set to current month
   const chartRef = useRef(null);
 
   useEffect(() => {
-    // Fetch mood data from your REST API
-    axios.get('http://localhost:3000/moods')
-      .then(response => {
-        // Assuming response.data is an array of mood objects
-        setMoodData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching mood data:', error);
-      });
-  }, []);
+    fetchMoodData();
+  }, [selectedMonth]);
+
+  const fetchMoodData = () => {
+    // Calculate start and end dates for the selected month
+    let startDate, endDate;
+
+    if (selectedMonth.getMonth() + 1 < 10) {
+      startDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), 1);
+      endDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, 0);
+    } else {
+      startDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), 1);
+      endDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, 0);
+    }
+
+    // Fetch mood data for the selected month from your REST API
+    axios.get('http://localhost:3000/moods', {
+      params: {
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString()
+      }
+    })
+    .then(response => {
+      // Assuming response.data is an array of mood objects
+      setMoodData(response.data);
+    })
+    .catch(error => {
+      console.error('Error fetching mood data:', error);
+    });
+};
+
 
   useEffect(() => {
-    // Render chart when moodData changes
+    // Render or update chart when moodData or selectedMonth changes
     if (moodData.length > 0) {
       renderChart();
     }
-  }, [moodData]);
+  }, [moodData, selectedMonth]);
 
   const renderChart = () => {
     // Destroy previous chart instance if it exists
     if (chartRef.current !== null) {
       chartRef.current.destroy();
     }
-
+  
+    // Filter mood data for the selected month
+    const filteredMoodData = moodData.filter(mood => {
+      const moodDate = new Date(mood.date);
+      return moodDate.getMonth() === selectedMonth.getMonth() && moodDate.getFullYear() === selectedMonth.getFullYear();
+    });
+  
     const labels = moodData.map(mood => new Date(mood.date).toLocaleDateString());
-    // Assuming you have a 'date' field in mood objects
-    const averageMood = moodData.map(mood => (mood.high + mood.low) / 2); // Calculate average mood
-    const hoursOfSleep = moodData.map(mood => mood.sleep); // Assuming you have a 'sleep' field in mood objects
-    const minutesOfPhysicalActivity = moodData.map(mood => mood.move); // Assuming you have a 'move' field in mood objects
-
+    const averageMood = filteredMoodData.map(mood => (mood.high + mood.low) / 2); // Calculate average mood
+    const hoursOfSleep = filteredMoodData.map(mood => mood.sleep); // Assuming you have a 'sleep' field in mood objects
+    const minutesOfPhysicalActivity = filteredMoodData.map(mood => mood.move); // Assuming you have a 'move' field in mood objects
+  
     // Chart.js setup
     const ctx = document.getElementById('moodsChart');
     chartRef.current = new Chart(ctx, {
@@ -98,9 +125,32 @@ function MoodsChart() {
       }
     });
   };
+  
+
+  const handlePrevMonth = () => {
+    setSelectedMonth(prevMonth(selectedMonth));
+  };
+
+  const handleNextMonth = () => {
+    setSelectedMonth(nextMonth(selectedMonth));
+  };
+
+  // Utility functions to get previous and next month
+  const prevMonth = (date) => {
+    return new Date(date.getFullYear(), date.getMonth() - 1, 1);
+  };
+
+  const nextMonth = (date) => {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 1);
+  };
 
   return (
     <div>
+      <div>
+        <button onClick={handlePrevMonth}>Previous Month</button>
+        <span>{selectedMonth.toLocaleDateString('default', { month: 'long', year: 'numeric' })}</span>
+        <button onClick={handleNextMonth}>Next Month</button>
+      </div>
       <h1>Mood Chart</h1>
       <canvas id="moodsChart" width="400" height="200"></canvas>
     </div>
