@@ -31,11 +31,11 @@ function MoodsChart() {
       chartRef.current.destroy();
     }
 
-    const labels = moodData.map(mood => mood.date); // Assuming you have a 'date' field in mood objects
-    const lowMoods = moodData.map(mood => mood.low); // Assuming you have a 'low' field in mood objects
-    const highMoods = moodData.map(mood => mood.high); // Assuming you have a 'high' field in mood objects
-    const hoursOfSleep = moodData.map(mood => mood.sleep); // Assuming you have a 'hoursOfSleep' field in mood objects
-    const minutesOfPhysicalActivity = moodData.map(mood => mood.move); // Assuming you have a 'minutesOfPhysicalActivity' field in mood objects
+    const labels = moodData.map(mood => new Date(mood.date).toLocaleDateString());
+    // Assuming you have a 'date' field in mood objects
+    const averageMood = moodData.map(mood => (mood.high + mood.low) / 2); // Calculate average mood
+    const hoursOfSleep = moodData.map(mood => mood.sleep); // Assuming you have a 'sleep' field in mood objects
+    const minutesOfPhysicalActivity = moodData.map(mood => mood.move); // Assuming you have a 'move' field in mood objects
 
     // Chart.js setup
     const ctx = document.getElementById('moodsChart');
@@ -44,15 +44,9 @@ function MoodsChart() {
       data: {
         labels: labels,
         datasets: [{
-          label: 'Low Mood',
-          data: lowMoods,
-          borderColor: 'rgb(255, 99, 132)',
-          tension: 0.1,
-          yAxisID: 'mood'
-        }, {
-          label: 'High Mood',
-          data: highMoods,
-          borderColor: 'rgb(54, 162, 235)',
+          label: 'Mood',
+          data: averageMood,
+          borderColor: 'rgb(54, 162, 235)', // You can customize the color as needed
           tension: 0.1,
           yAxisID: 'mood'
         }, {
