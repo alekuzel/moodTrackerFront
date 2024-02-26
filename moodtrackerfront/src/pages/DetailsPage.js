@@ -1,8 +1,8 @@
 
 import React from 'react';
 
-function Details() {
-  return <h1>This is the Details page</h1>;
+function Notes() {
+  return <h1>Notes will be here</h1>;
 }
 
-export default Details;
+export default Notes;
