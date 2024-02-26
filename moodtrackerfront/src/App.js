@@ -4,6 +4,7 @@ import Navigation from './components/Navigation';
 import Home from './pages/HomePage';
 import About from './pages/AboutPage';
 import Details from './pages/DetailsPage';
+import MoodForm from './components/MoodForm'; // Import the MoodForm component
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/details" element={<Details />} />
+            {/* Add a new route for the mood tracking page */}
+            <Route path="/track-mood" element={<MoodForm />} />
           </Routes>
         </div>
       </div>
