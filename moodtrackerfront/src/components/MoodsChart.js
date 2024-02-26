@@ -53,20 +53,31 @@ function MoodsChart() {
       chartRef.current.destroy();
     }
   
+    // Get the number of days in the selected month
+    const numDaysInMonth = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, 0).getDate();
+  
+    // Generate labels for all the days of the month
+    const labels = Array.from({ length: numDaysInMonth }, (_, index) => index + 1);
+  
     // Filter mood data for the selected month
     const filteredMoodData = moodData.filter(mood => {
       const moodDate = new Date(mood.date);
       return moodDate.getMonth() === selectedMonth.getMonth() && moodDate.getFullYear() === selectedMonth.getFullYear();
     });
   
-    const labels = filteredMoodData.map(mood => {
-      const date = new Date(mood.date);
-      const day = date.getDate().toString().padStart(2, '0');
-      return `${day}`;
+    // Fill in missing mood data for days with no data
+    const filledMoodData = labels.map(day => {
+      const moodForDay = filteredMoodData.find(mood => {
+        const moodDate = new Date(mood.date);
+        return moodDate.getDate() === day;
+      });
+  
+      if (moodForDay) {
+        return (moodForDay.high + moodForDay.low) / 2;
+      } else {
+        return null; // Use null for days with no mood data
+      }
     });
-    const averageMood = filteredMoodData.map(mood => (mood.high + mood.low) / 2); // Calculate average mood
-    const hoursOfSleep = filteredMoodData.map(mood => mood.sleep); // Assuming you have a 'sleep' field in mood objects
-    const minutesOfPhysicalActivity = filteredMoodData.map(mood => mood.move); // Assuming you have a 'move' field in mood objects
   
     // Chart.js setup
     const ctx = document.getElementById('moodsChart');
@@ -76,22 +87,10 @@ function MoodsChart() {
         labels: labels,
         datasets: [{
           label: 'Mood',
-          data: averageMood,
+          data: filledMoodData,
           borderColor: 'rgb(54, 162, 235)',
           tension: 0.1,
           yAxisID: 'mood'
-        }, {
-          label: 'Hours of Sleep',
-          data: hoursOfSleep,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1,
-          yAxisID: 'hoursOfSleep'
-        }, {
-          label: 'Minutes of Physical Activity',
-          data: minutesOfPhysicalActivity,
-          borderColor: 'rgb(255, 205, 86)',
-          tension: 0.1,
-          yAxisID: 'minutesOfPhysicalActivity'
         }]
       },
       options: {
@@ -110,25 +109,12 @@ function MoodsChart() {
             },
             min: -5,
             max: 5
-          },
-          hoursOfSleep: {
-            position: 'right',
-            title: {
-              display: true,
-              text: 'Hours of Sleep'
-            }
-          },
-          minutesOfPhysicalActivity: {
-            position: 'right',
-            title: {
-              display: true,
-              text: 'Minutes of Physical Activity'
-            }
           }
         }
       }
     });
   };
+  
   
 
   const handlePrevMonth = () => {

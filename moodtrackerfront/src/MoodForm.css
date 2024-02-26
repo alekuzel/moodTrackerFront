@@ -1,0 +1,80 @@
+.mood-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mood-form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .mood-form label input,
+  .mood-form label textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .mood-form label input[type="number"],
+  .mood-form label input[type="date"],
+  .mood-form label input[type="text"],
+  .mood-form label textarea {
+    margin-bottom: 10px;
+  }
+  
+  .mood-form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .mood-form button:hover {
+    background-color: #0056b3;
+  }
+
+  .mood-form .slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 10px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    margin-top: 5px;
+  }
+  
+  .mood-form .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+  }
+  
+  .mood-form .slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+  }
+  
+  .mood-form .slider-value {
+    display: inline-block;
+    margin-left: 10px;
+  }
+  
+  
