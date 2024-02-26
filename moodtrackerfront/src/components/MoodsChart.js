@@ -59,7 +59,11 @@ function MoodsChart() {
       return moodDate.getMonth() === selectedMonth.getMonth() && moodDate.getFullYear() === selectedMonth.getFullYear();
     });
   
-    const labels = moodData.map(mood => new Date(mood.date).toLocaleDateString());
+    const labels = filteredMoodData.map(mood => {
+      const date = new Date(mood.date);
+      const day = date.getDate().toString().padStart(2, '0');
+      return `${day}`;
+    });
     const averageMood = filteredMoodData.map(mood => (mood.high + mood.low) / 2); // Calculate average mood
     const hoursOfSleep = filteredMoodData.map(mood => mood.sleep); // Assuming you have a 'sleep' field in mood objects
     const minutesOfPhysicalActivity = filteredMoodData.map(mood => mood.move); // Assuming you have a 'move' field in mood objects
@@ -73,7 +77,7 @@ function MoodsChart() {
         datasets: [{
           label: 'Mood',
           data: averageMood,
-          borderColor: 'rgb(54, 162, 235)', // You can customize the color as needed
+          borderColor: 'rgb(54, 162, 235)',
           tension: 0.1,
           yAxisID: 'mood'
         }, {
