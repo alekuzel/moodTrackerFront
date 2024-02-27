@@ -69,7 +69,8 @@ function MoodsChart() {
     const hoursOfSleep = new Array(numDaysInMonth).fill(null); // Initialize array for hours of sleep
     const minutesOfPhysicalActivity = new Array(numDaysInMonth).fill(null); // Initialize array for minutes of physical activity
   
-    // Fill in mood data for days with available data
+    // Fill in mood data for days where data is available
+
     filteredMoodData.forEach(mood => {
       const dayOfMonth = new Date(mood.date).getDate();
       averageMood[dayOfMonth - 1] = (mood.high + mood.low) / 2;
