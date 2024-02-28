@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const navigate = useNavigate(); // Use useNavigate instead of useHistory
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -19,22 +22,42 @@ function Login() {
         body: JSON.stringify({ email, password }),
       });
   
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+  
+      // Read the response body as text
+      const responseBody = await response.text();
+  
+      console.log('Response body:', responseBody);
+  
       if (!response.ok) {
         throw new Error('Login failed');
       }
+  
+      // Parse the response body as JSON
+      const responseData = JSON.parse(responseBody);
+        
+      // Extract the authentication token from the response
+      const { token } = responseData;
+  
+      // Store the token in local storage
+      localStorage.setItem('accessToken', token);
   
       // Reset form fields and error message
       setEmail('');
       setPassword('');
       setError('');
   
-      // Redirect or perform any necessary actions upon successful login
+      // Redirect to home page upon successful login
+      navigate('/');
+  
       console.log('Login successful');
     } catch (error) {
       setError('Invalid email or password');
       console.error('Login error:', error);
     }
   };
+  
   
 
   return (
