@@ -22,26 +22,22 @@ function Login() {
         body: JSON.stringify({ email, password }),
       });
   
-      console.log('Response status:', response.status);
-      console.log('Response headers:', response.headers);
-  
-      // Read the response body as text
-      const responseBody = await response.text();
-  
-      console.log('Response body:', responseBody);
-  
       if (!response.ok) {
         throw new Error('Login failed');
       }
   
       // Parse the response body as JSON
-      const responseData = JSON.parse(responseBody);
-        
-      // Extract the authentication token from the response
-      const { token } = responseData;
+      const responseData = await response.json();
   
-      // Store the token in local storage
+      // Extract the authentication token and user ID from the response
+      const { token, _id } = responseData;
+  
+      // Log the user ID
+      console.log('User ID:', _id);
+  
+      // Store the token and user ID in local storage
       localStorage.setItem('accessToken', token);
+      localStorage.setItem('userid', _id);
   
       // Reset form fields and error message
       setEmail('');
@@ -59,7 +55,6 @@ function Login() {
   };
   
   
-
   return (
     <div>
       <h2>Login</h2>
