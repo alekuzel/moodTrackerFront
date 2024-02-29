@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import LogoutButton from './LogoutButton'; // Import the LogoutButton component
 
 function Navigation() {
   const navStyle = {
@@ -24,6 +25,8 @@ function Navigation() {
         <li><Link to="/" style={linkStyle}>Home</Link></li>
         <li><Link to="/about" style={linkStyle}>About</Link></li>
         <li><Link to="/details" style={linkStyle}>Details</Link></li>
+        {/* Add LogoutButton as a navigation item */}
+        <li><LogoutButton /></li>
       </ul>
     </nav>
   );

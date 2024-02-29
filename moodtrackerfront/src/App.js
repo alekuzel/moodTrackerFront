@@ -7,6 +7,7 @@ import Notes from './pages/DetailsPage';
 import MoodForm from './components/MoodForm'; // Import the MoodForm component
 import Login from './pages/LoginPage'; // Import the Login component
 import Register from './pages/RegisterPage'; // Import the Register component
+import LogoutButton from './components/LogoutButton';
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
+          {/* Include LogoutButton component here */}
+          <LogoutButton />
         </div>
       </div>
     </Router>
