@@ -7,7 +7,7 @@ import Notes from './pages/DetailsPage';
 
 import Login from './pages/LoginPage'; // Import the Login component
 import Register from './pages/RegisterPage'; // Import the Register component
-import LogoutButton from './components/LogoutButton';
+
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
             <Route path="/register" element={<Register />} />
           </Routes>
           {/* Include LogoutButton component here */}
-          <LogoutButton />
+         
         </div>
       </div>
     </Router>

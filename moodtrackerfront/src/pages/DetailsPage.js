@@ -36,13 +36,16 @@ function Notes() {
       console.log('Response data:', response.data); // Add this line
       console.log('Notes:', response.data.notes); // Add this line
       console.log('Total pages:', response.data.totalPages); // Add this line
-      setNotes(response.data.notes);
+      setNotes(response.data);
       setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error('Error fetching notes:', error);
     }
   };
   
+  
+  
+
   const handlePrevPage = () => {
     setCurrentPage(prevPage => prevPage > 1 ? prevPage - 1 : prevPage);
   };
