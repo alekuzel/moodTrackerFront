@@ -28,16 +28,20 @@ function Login() {
   
       // Parse the response body as JSON
       const responseData = await response.json();
+      console.log('Res:', responseData);
   
       // Extract the authentication token and user ID from the response
       const { token, _id } = responseData;
   
       // Log the user ID
-      console.log('User ID:', _id);
+      
   
       // Store the token and user ID in local storage
       localStorage.setItem('accessToken', token);
       localStorage.setItem('userid', _id);
+      
+      console.log('accessToken', token);
+      console.log('User ID:', _id);
   
       // Reset form fields and error message
       setEmail('');

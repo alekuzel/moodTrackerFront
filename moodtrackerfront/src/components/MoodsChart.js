@@ -14,7 +14,7 @@ function MoodsChart() {
   const fetchMoodData = () => {
     // Calculate start and end dates for the selected month
     let startDate, endDate;
-
+  
     if (selectedMonth.getMonth() + 1 < 10) {
       startDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), 1);
       endDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, 0);
@@ -22,9 +22,12 @@ function MoodsChart() {
       startDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), 1);
       endDate = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, 0);
     }
-
-    // Fetch mood data for the selected month from your REST API
-    axios.get('http://localhost:3000/moods', {
+  
+    // Retrieve user ID from local storage or context
+    const userId = localStorage.getItem('userid'); // Update this line based on how you store user ID
+  
+    // Fetch mood data for the selected month and user ID from your REST API
+    axios.get(`http://localhost:3000/moods/users/${userId}`, {
       params: {
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString()
@@ -37,7 +40,8 @@ function MoodsChart() {
     .catch(error => {
       console.error('Error fetching mood data:', error);
     });
-};
+  };
+  
 
 
   useEffect(() => {
