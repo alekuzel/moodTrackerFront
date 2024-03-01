@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Notes() {
   const [notes, setNotes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchNotes();
@@ -13,25 +15,34 @@ function Notes() {
   const fetchNotes = async () => {
     const userId = localStorage.getItem('userid');
     try {
+      // Check if the user is authenticated
+      const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        // Redirect to login page if not authenticated
+        navigate('/login');
+        return;
+      }
+
       // Fetch user-specific notes for the current page
       const response = await axios.get(`http://localhost:3000/notes/users/${userId}`, {
         params: {
           page: currentPage,
           limit: 15 // Limit to 15 notes per page
+        },
+        headers: {
+          'Authorization': `Bearer ${accessToken}` // Include authentication token
         }
       });
       console.log('Response data:', response.data); // Add this line
       console.log('Notes:', response.data.notes); // Add this line
       console.log('Total pages:', response.data.totalPages); // Add this line
-      setNotes(response.data);
+      setNotes(response.data.notes);
       setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error('Error fetching notes:', error);
     }
   };
   
-  
-
   const handlePrevPage = () => {
     setCurrentPage(prevPage => prevPage > 1 ? prevPage - 1 : prevPage);
   };

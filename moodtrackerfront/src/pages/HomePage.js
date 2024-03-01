@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MoodsChart from '../components/MoodsChart';
 import MoodForm from '../components/MoodForm';
-import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [userData, setUserData] = useState(null);
@@ -11,11 +11,19 @@ function Home() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        // Check if the user is authenticated
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken) {
+          // Redirect to login page if not authenticated
+          navigate('/login');
+          return;
+        }
+
         // Make a request to your backend API to fetch user data
         const response = await fetch('http://localhost:3000/users', {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}` // Include authentication token
+            'Authorization': `Bearer ${accessToken}` // Include authentication token
           }
         });
 
@@ -41,7 +49,7 @@ function Home() {
 
   return (
     <div style={{ marginLeft: '15vw', paddingTop: '15vh' }}>
-      <h2 style={{ color: 'black' }}>This is the Home page</h2>
+      <h2 style={{ color: 'black' }}>Welcome!</h2>
       
       {/* Display user-specific data if available */}
       {userData && (
