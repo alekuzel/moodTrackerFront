@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap'; // Import Bootstrap components
+import { Form, Button, Container } from 'react-bootstrap'; // Import Bootstrap components
 
 function RegistrationPage() {
   const navigate = useNavigate(); // Hook for navigation
@@ -42,28 +42,30 @@ function RegistrationPage() {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formName">
-          <Form.Label>Name:</Form.Label>
-          <Form.Control type="text" name="name" value={formData.name} onChange={handleChange} />
-        </Form.Group>
-        <Form.Group controlId="formLastname">
-          <Form.Label>Lastname:</Form.Label>
-          <Form.Control type="text" name="lastname" value={formData.lastname} onChange={handleChange} />
-        </Form.Group>
-        <Form.Group controlId="formEmail">
-          <Form.Label>Email:</Form.Label>
-          <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} />
-        </Form.Group>
-        <Form.Group controlId="formPassword">
-          <Form.Label>Password:</Form.Label>
-          <Form.Control type="password" name="password" value={formData.password} onChange={handleChange} />
-        </Form.Group>
-        <Button variant="primary" type="submit">Register</Button>
-      </Form>
-    </div>
+    <Container className="d-flex justify-content-center mt-5">
+      <div>
+        <h2>Register</h2>
+        <Form onSubmit={handleSubmit} style={{ width: '70vw' }}>
+          <Form.Group controlId="formName">
+            <Form.Label>Name:</Form.Label>
+            <Form.Control type="text" name="name" value={formData.name} onChange={handleChange} />
+          </Form.Group>
+          <Form.Group controlId="formLastname">
+            <Form.Label>Lastname:</Form.Label>
+            <Form.Control type="text" name="lastname" value={formData.lastname} onChange={handleChange} />
+          </Form.Group>
+          <Form.Group controlId="formEmail">
+            <Form.Label>Email:</Form.Label>
+            <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} />
+          </Form.Group>
+          <Form.Group controlId="formPassword">
+            <Form.Label>Password:</Form.Label>
+            <Form.Control type="password" name="password" value={formData.password} onChange={handleChange} />
+          </Form.Group>
+          <Button variant="primary" type="submit" className="mt-3">Register</Button> {/* Add margin to the top */}
+        </Form>
+      </div>
+    </Container>
   );
 }
 

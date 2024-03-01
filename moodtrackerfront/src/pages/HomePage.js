@@ -48,7 +48,7 @@ function Home() {
   }, [navigate]);
 
   return (
-    <div style={{ marginLeft: '15vw', paddingTop: '15vh' }}>
+    <div style={{ marginLeft: '2vw', paddingTop: '10vh' }}>
       <h2 style={{ color: 'black' }}>Welcome!</h2>
       
       {/* Display user-specific data if available */}
