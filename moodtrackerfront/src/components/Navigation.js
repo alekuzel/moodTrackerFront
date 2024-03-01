@@ -1,34 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Navbar, Nav } from 'react-bootstrap'; // Import Bootstrap components
 import LogoutButton from './LogoutButton'; // Import the LogoutButton component
+import '../Navigation.css'; // Import custom CSS for styling
 
 function Navigation() {
-  const navStyle = {
-    width: '15vw',
-    height: '100vh',
-    backgroundColor: 'darkgreen',
-    padding: '10px',
-    margin: 0,
-    listStyleType: 'none',
-  };
+  const [expanded, setExpanded] = useState(false);
 
-  const linkStyle = {
-    color: 'white',
-    textDecoration: 'none',
-    display: 'block',
-    padding: '5px 10px',
+  const toggleMenu = () => {
+    setExpanded(!expanded);
   };
 
   return (
-    <nav style={navStyle}>
-      <ul style={{ height: '100%', padding: 0 }}>
-        <li><Link to="/" style={linkStyle}>Home</Link></li>
-        <li><Link to="/about" style={linkStyle}>About</Link></li>
-        <li><Link to="/details" style={linkStyle}>Notes</Link></li>
-        {/* Add LogoutButton as a navigation item */}
-        <li><LogoutButton /></li>
-      </ul>
-    </nav>
+    <div className="nav-wrapper">
+      <Navbar bg="dark" variant="dark" expand="lg" expanded={expanded}>
+        <Navbar.Brand as={Link} to="/">Home</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={toggleMenu} />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link as={Link} to="/about">About</Nav.Link>
+            <Nav.Link as={Link} to="/details">Notes</Nav.Link>
+          </Nav>
+          <Nav>
+            <LogoutButton />
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    </div>
   );
 }
 
