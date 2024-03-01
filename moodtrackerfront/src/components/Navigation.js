@@ -24,7 +24,7 @@ function Navigation() {
       <ul style={{ height: '100%', padding: 0 }}>
         <li><Link to="/" style={linkStyle}>Home</Link></li>
         <li><Link to="/about" style={linkStyle}>About</Link></li>
-        <li><Link to="/details" style={linkStyle}>Details</Link></li>
+        <li><Link to="/details" style={linkStyle}>Notes</Link></li>
         {/* Add LogoutButton as a navigation item */}
         <li><LogoutButton /></li>
       </ul>

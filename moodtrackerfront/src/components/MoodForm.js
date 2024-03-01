@@ -36,6 +36,7 @@ function MoodForm() {
     const notesData = {
       title: title,
       text: text,
+      date: date,
       userid: userid // Use correct casing for userId
     };
   
