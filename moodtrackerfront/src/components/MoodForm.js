@@ -13,16 +13,16 @@ function MoodForm({ updateGraph }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Retrieve userId from local storage
     let userid = localStorage.getItem('userid');
-
+  
     // Check if userId is retrieved from local storage
     if (!userid) {
       console.error('User ID not found in local storage');
       return; // Exit the function if userId is not found
     }
-
+  
     // Send mood data to moods API along with userId
     const moodData = {
       low: low,
@@ -32,7 +32,7 @@ function MoodForm({ updateGraph }) {
       date: date,
       userid: userid, // Use correct casing for userId
     };
-
+  
     // Send notes data to notes API along with userId
     const notesData = {
       title: title,
@@ -40,7 +40,7 @@ function MoodForm({ updateGraph }) {
       date: date,
       userid: userid, // Use correct casing for userId
     };
-
+  
     try {
       // Save mood data
       const moodResponse = await fetch('http://localhost:3000/moods', {
@@ -50,12 +50,12 @@ function MoodForm({ updateGraph }) {
         },
         body: JSON.stringify(moodData),
       });
-
+  
       // Check if mood data is saved successfully
       if (!moodResponse.ok) {
         throw new Error('Failed to save mood data');
       }
-
+  
       // Save notes data
       const notesResponse = await fetch('http://localhost:3000/notes', {
         method: 'POST',
@@ -64,18 +64,19 @@ function MoodForm({ updateGraph }) {
         },
         body: JSON.stringify(notesData),
       });
-
+  
       // Check if notes data is saved successfully
       if (!notesResponse.ok) {
         throw new Error('Failed to save notes data');
       }
-
+  
       // Update the graph after successful save
-      updateGraph();
+      updateGraph(); // Call the updateGraph function here
     } catch (error) {
       console.error('Error:', error);
     }
   };
+  
 
   return (
     <div className="mood-form-container" style={{ marginBottom: '10vh' }}>

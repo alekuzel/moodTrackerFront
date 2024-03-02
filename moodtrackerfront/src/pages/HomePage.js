@@ -47,6 +47,15 @@ function Home() {
     fetchUserData();
   }, [navigate]);
 
+  // Function to update the graph data
+  const updateGraph = () => {
+    // Trigger a re-render of the MoodsChart component
+    // This function will be passed to the MoodForm component
+    // and called when the save button is clicked
+    // You may need to implement logic here to fetch updated data
+    // from the backend and update the state accordingly
+  };
+
   return (
     <div style={{ marginLeft: '2vw', paddingTop: '10vh' }}>
       <h2 style={{ color: 'black' }}>Welcome!</h2>
@@ -55,8 +64,8 @@ function Home() {
       {userData && (
         <>
           <MoodsChart userData={userData} />
-          {/* Insert other components to display user-specific data */}
-          <MoodForm />
+          {/* Pass the updateGraph function to the MoodForm component */}
+          <MoodForm updateGraph={updateGraph} />
         </>
       )}
 
