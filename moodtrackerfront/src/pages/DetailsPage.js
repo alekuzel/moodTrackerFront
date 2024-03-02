@@ -26,7 +26,7 @@ function Notes() {
         navigate('/login');
         return;
       }
-
+  
       // Fetch user-specific notes for the current page, sorted by newest first
       const response = await axios.get(`http://localhost:3000/notes/users/${userId}`, {
         params: {
@@ -38,12 +38,17 @@ function Notes() {
           'Authorization': `Bearer ${accessToken}` // Include authentication token
         }
       });
-      setNotes(response.data);
+  
+      // Sort notes from new to old based on their date
+      const sortedNotes = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+  
+      setNotes(sortedNotes);
       setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error('Error fetching notes:', error);
     }
   };
+  
 
   const handlePrevPage = () => {
     setCurrentPage(prevPage => prevPage > 1 ? prevPage - 1 : prevPage);

@@ -11,18 +11,18 @@ function MoodForm({ updateGraph }) {
   const [title, setTitle] = useState('');
   const [text, setNotes] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleMoodSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Retrieve userId from local storage
     let userid = localStorage.getItem('userid');
-  
+
     // Check if userId is retrieved from local storage
     if (!userid) {
       console.error('User ID not found in local storage');
       return; // Exit the function if userId is not found
     }
-  
+
     // Send mood data to moods API along with userId
     const moodData = {
       low: low,
@@ -32,15 +32,7 @@ function MoodForm({ updateGraph }) {
       date: date,
       userid: userid, // Use correct casing for userId
     };
-  
-    // Send notes data to notes API along with userId
-    const notesData = {
-      title: title,
-      text: text,
-      date: date,
-      userid: userid, // Use correct casing for userId
-    };
-  
+
     try {
       // Save mood data
       const moodResponse = await fetch('http://localhost:3000/moods', {
@@ -50,37 +42,74 @@ function MoodForm({ updateGraph }) {
         },
         body: JSON.stringify(moodData),
       });
-  
+
       // Check if mood data is saved successfully
       if (!moodResponse.ok) {
         throw new Error('Failed to save mood data');
       }
-  
-      // Save notes data
-      const notesResponse = await fetch('http://localhost:3000/notes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(notesData),
-      });
-  
-      // Check if notes data is saved successfully
-      if (!notesResponse.ok) {
-        throw new Error('Failed to save notes data');
-      }
-  
+
       // Update the graph after successful save
       updateGraph(); // Call the updateGraph function here
     } catch (error) {
       console.error('Error:', error);
     }
   };
-  
+
+  const handleNoteSubmit = async (e) => {
+    e.preventDefault();
+
+    // Only save notes if the text field has more than 10 characters
+    if (text.length <= 10) {
+      console.log('Note must have more than 10 characters to be saved');
+      return;
+    }
+
+    // Retrieve userId from local storage
+    let userid = localStorage.getItem('userid');
+
+    // Check if userId is retrieved from local storage
+    if (!userid) {
+      console.error('User ID not found in local storage');
+      return; // Exit the function if userId is not found
+    }
+
+    // Send notes data to notes API along with userId
+    const notesData = {
+      title: title,
+      text: text,
+      date: date,
+      userid: userid, // Use correct casing for userId
+    };
+
+    try {
+      // Save notes data only if the text field has more than 10 characters
+      if (text.length > 10) {
+        const notesResponse = await fetch('http://localhost:3000/notes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(notesData),
+        });
+
+        // Check if notes data is saved successfully
+        if (!notesResponse.ok) {
+          throw new Error('Failed to save notes data');
+        }
+        setTitle('');
+        setNotes('');
+      }
+
+      // Update the graph after successful save
+      updateGraph(); // Call the updateGraph function here
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   return (
     <div className="mood-form-container" style={{ marginBottom: '10vh' }}>
-      <Form className="mood-form" onSubmit={handleSubmit}>
+      <Form className="mood-form">
         <Row>
           <Col md={6}>
             <Form.Group>
@@ -112,11 +141,16 @@ function MoodForm({ updateGraph }) {
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col md={6}>
             <Form.Group>
               <Form.Label>Date:</Form.Label>
               <Form.Control type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
             </Form.Group>
+          </Col>
+          </Row>
+          <Row>
+          <Col md={6}>
+            <Button type="submit" onClick={handleMoodSubmit}>Save Mood</Button>
           </Col>
         </Row>
         <Row>
@@ -128,18 +162,27 @@ function MoodForm({ updateGraph }) {
           </Col>
         </Row>
         <Row>
+          <Col md={6}>
+            <Form.Group>
+              <Form.Label>Date:</Form.Label>
+              <Form.Control type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+            </Form.Group>
+          </Col>
+          </Row>
+        <Row>
           <Col>
             <Form.Group>
-              <Form.Label>Notes:</Form.Label>
+              <Form.Label>Note:</Form.Label>
               <Form.Control as="textarea" value={text} onChange={(e) => setNotes(e.target.value)} />
             </Form.Group>
           </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button type="submit">Save</Button>
+          </Row>
+          <Row>
+          <Col className="text-start">
+            <Button type="submit" onClick={handleNoteSubmit}>Save Note</Button>
           </Col>
         </Row>
+        
       </Form>
     </div>
   );

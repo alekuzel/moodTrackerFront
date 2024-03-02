@@ -63,7 +63,7 @@ function Home() {
       {/* Display user-specific data if available */}
       {userData && (
         <>
-          <MoodsChart userData={userData} />
+         <MoodsChart updateGraph={updateGraph} />
           {/* Pass the updateGraph function to the MoodForm component */}
           <MoodForm updateGraph={updateGraph} />
         </>

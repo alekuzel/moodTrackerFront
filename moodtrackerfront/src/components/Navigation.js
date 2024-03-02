@@ -22,17 +22,21 @@ function Navigation() {
     setExpanded(!expanded);
   };
 
+  const handleNavLinkClick = () => {
+    setExpanded(false); // Close the menu when a link is clicked
+  };
+
   return (
     <div className="nav-wrapper">
       
       {showNavigationLinks() && (
       <Navbar bg="dark" variant="dark" expand="lg" expanded={expanded}>
-        <Navbar.Brand as={Link} to="/">Home</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/" onClick={handleNavLinkClick}>Home</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={toggleMenu} />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/about">About</Nav.Link>
-            <Nav.Link as={Link} to="/details">Notes</Nav.Link>
+            <Nav.Link as={Link} to="/about" onClick={handleNavLinkClick}>About</Nav.Link>
+            <Nav.Link as={Link} to="/details" onClick={handleNavLinkClick}>Notes</Nav.Link>
           </Nav>
           <Nav>
             <LogoutButton />
