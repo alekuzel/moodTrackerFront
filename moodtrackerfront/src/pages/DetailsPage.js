@@ -27,11 +27,12 @@ function Notes() {
         return;
       }
 
-      // Fetch user-specific notes for the current page
+      // Fetch user-specific notes for the current page, sorted by newest first
       const response = await axios.get(`http://localhost:3000/notes/users/${userId}`, {
         params: {
           page: currentPage,
-          limit: 15 // Limit to 15 notes per page
+          limit: 15, // Limit to 15 notes per page
+          sort: '-date' // Sort by date in descending order (newest first)
         },
         headers: {
           'Authorization': `Bearer ${accessToken}` // Include authentication token
@@ -113,44 +114,48 @@ function Notes() {
   };
 
   return (
-    <Container>
+    <Container style={{ marginTop: '12vh' }}>
       <h1 className="my-4">User Notes</h1>
-      {notes.map(note => (
-        <Card key={note._id} className="mb-3">
-          <Card.Body>
-            {editingNoteId === note._id ? (
-              <Form.Group>
-                <Form.Control
-                  type="text"
-                  value={editedTitle}
-                  onChange={(e) => setEditedTitle(e.target.value)}
-                />
-              </Form.Group>
-            ) : (
-              <Card.Title>{note.title}</Card.Title>
-            )}
-            <Card.Text>Date: {new Date(note.date).toLocaleDateString()}</Card.Text>
-            {editingNoteId === note._id ? (
-              <Form.Group>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  value={editedText}
-                  onChange={(e) => setEditedText(e.target.value)}
-                />
-              </Form.Group>
-            ) : (
-              <Card.Text>{note.text}</Card.Text>
-            )}
-            {editingNoteId === note._id ? (
-              <Button variant="success" className="me-2" onClick={() => handleSave(note._id)}>Save</Button>
-            ) : (
-              <Button variant="primary" className="me-2" onClick={() => handleEdit(note._id, note.title, note.text)}>Edit</Button>
-            )}
-            <Button variant="danger" onClick={() => handleDelete(note._id)}>Delete</Button>
-          </Card.Body>
-        </Card>
-      ))}
+      <Row xs={1} sm={1} md={2} lg={2} xl={2} xxl={2} className="g-4">
+        {notes.map(note => (
+          <Col key={note._id}>
+            <Card className="mb-3" style={{ backgroundColor: '#e9ffe5' }}>
+              <Card.Body>
+                {editingNoteId === note._id ? (
+                  <Form.Group>
+                    <Form.Control
+                      type="text"
+                      value={editedTitle}
+                      onChange={(e) => setEditedTitle(e.target.value)}
+                    />
+                  </Form.Group>
+                ) : (
+                  <Card.Title>{note.title}</Card.Title>
+                )}
+                <Card.Text>Date: {new Date(note.date).toLocaleDateString()}</Card.Text>
+                {editingNoteId === note._id ? (
+                  <Form.Group>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      value={editedText}
+                      onChange={(e) => setEditedText(e.target.value)}
+                    />
+                  </Form.Group>
+                ) : (
+                  <Card.Text>{note.text}</Card.Text>
+                )}
+                {editingNoteId === note._id ? (
+                  <Button variant="success" className="me-2" onClick={() => handleSave(note._id)}>Save</Button>
+                ) : (
+                  <Button variant="primary" className="me-2" onClick={() => handleEdit(note._id, note.title, note.text)}>Edit</Button>
+                )}
+                <Button variant="danger" onClick={() => handleDelete(note._id)}>Delete</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
       <Row className="my-3">
         <Col className="text-center">
           <Button onClick={handlePrevPage} disabled={currentPage === 1}>Previous Page</Button>
