@@ -124,7 +124,7 @@ function Notes() {
       <Row xs={1} sm={1} md={2} lg={2} xl={2} xxl={2} className="g-4">
         {notes.map(note => (
           <Col key={note._id}>
-            <Card className="mb-3" style={{ backgroundColor: '#e9ffe5' }}>
+            <Card className="mb-3" style={{ backgroundColor: '#F3F2E8' }}>
               <Card.Body>
                 {editingNoteId === note._id ? (
                   <Form.Group>

@@ -46,7 +46,7 @@ function Login() {
     <Container>
       <Row className="justify-content-center">
         <Col xs={12} md={6}>
-          <h2 className="mt-5 mb-4">Login</h2>
+          <h2 className="mt-5 mb-4">Log in the Mood Tracker</h2>
           <Form onSubmit={handleLogin}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>

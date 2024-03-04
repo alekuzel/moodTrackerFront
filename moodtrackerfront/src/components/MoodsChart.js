@@ -157,7 +157,7 @@ function MoodsChart({ updateGraph }) {
   };
 
   return (
-    <div className="chart-container" style={{ overflowX: 'auto', backgroundColor: '#f5f5f5', padding: '20px', borderRadius: '5px', width: '80%', margin: '0 auto' }}>
+    <div className="chart-container" style={{ overflowX: 'auto', backgroundColor: '#f5f5f5', padding: '20px', borderRadius: '5px', width: '80%', margin: '0 auto', marginBottom: '2vh' }}>
       <Container className="mt-5">
         <Row className="mb-3">
           <Col xs={4}>
