@@ -7,7 +7,7 @@ function MoodsChart({ updateGraph }) {
   const [moodData, setMoodData] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const chartRef = useRef(null);
-  const currentMonth = selectedMonth.toLocaleString('default', { month: 'long' }); 
+  const currentMonth = selectedMonth.toLocaleString('default', { month: 'long' });
 
   const fetchMoodData = () => {
     let startDate, endDate;
@@ -31,7 +31,6 @@ function MoodsChart({ updateGraph }) {
       })
       .then((response) => {
         setMoodData(response.data);
-        updateGraph();
       })
       .catch((error) => {
         console.error('Error fetching mood data:', error);
@@ -139,6 +138,11 @@ function MoodsChart({ updateGraph }) {
       renderChart();
     }
   }, [moodData, selectedMonth]);
+
+  useEffect(() => {
+    // Listen for changes triggered by updateGraph
+    renderChart();
+  }, [updateGraph]);
 
   const handlePrevMonth = () => {
     setSelectedMonth(prevMonth(selectedMonth));

@@ -48,12 +48,23 @@ function Home() {
   }, [navigate]);
 
   // Function to update the graph data
-  const updateGraph = () => {
-    // Trigger a re-render of the MoodsChart component
-    // This function will be passed to the MoodForm component
-    // and called when the save button is clicked
-    // You may need to implement logic here to fetch updated data
-    // from the backend and update the state accordingly
+  const updateGraph = async () => {
+    try {
+      // Refetch mood data from the backend API
+      const response = await fetch('http://localhost:3000/moods'); // Assuming this is the endpoint to fetch mood data
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch mood data');
+      }
+
+      // Parse the response JSON
+      const data = await response.json();
+
+      // Update the mood chart with the new data (not implemented here)
+      console.log('New mood data:', data);
+    } catch (error) {
+      console.error('Error updating graph data:', error);
+    }
   };
 
   return (
@@ -63,7 +74,7 @@ function Home() {
       {/* Display user-specific data if available */}
       {userData && (
         <>
-         <MoodsChart updateGraph={updateGraph} />
+          <MoodsChart updateGraph={updateGraph} />
           {/* Pass the updateGraph function to the MoodForm component */}
           <MoodForm updateGraph={updateGraph} />
         </>
