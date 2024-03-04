@@ -108,7 +108,12 @@ function MoodForm({ updateGraph }) {
   };
 
   return (
-    <div className="mood-form-container" style={{ marginBottom: '10vh' }}>
+    <div className="mood-form-container">
+      <div className="instruction-container">
+        <p className="instruction">
+          Evaluate your best and worst mood during the day from -5 (extremely depressed) to 5 (extremely elevated mood). Write also how many hours did you sleep the night before and how many minutes did you motion (everything counts - training, walking, taking stairs etc) during the day. Write your notes if you feel like it. Keep track of your mood changes, motion and sleeping routine and feel good!
+        </p>
+      </div>
       <Form className="mood-form">
         <Row>
           <Col md={6}>
@@ -147,8 +152,8 @@ function MoodForm({ updateGraph }) {
               <Form.Control type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
             </Form.Group>
           </Col>
-          </Row>
-          <Row>
+        </Row>
+        <Row>
           <Col md={6}>
             <Button type="submit" onClick={handleMoodSubmit}>Save Mood</Button>
           </Col>
@@ -168,7 +173,7 @@ function MoodForm({ updateGraph }) {
               <Form.Control type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
             </Form.Group>
           </Col>
-          </Row>
+        </Row>
         <Row>
           <Col>
             <Form.Group>
@@ -176,13 +181,12 @@ function MoodForm({ updateGraph }) {
               <Form.Control as="textarea" value={text} onChange={(e) => setNotes(e.target.value)} />
             </Form.Group>
           </Col>
-          </Row>
-          <Row>
+        </Row>
+        <Row>
           <Col className="text-start">
             <Button type="submit" onClick={handleNoteSubmit}>Save Note</Button>
           </Col>
         </Row>
-        
       </Form>
     </div>
   );

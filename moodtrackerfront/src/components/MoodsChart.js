@@ -7,6 +7,7 @@ function MoodsChart({ updateGraph }) {
   const [moodData, setMoodData] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const chartRef = useRef(null);
+  const currentMonth = selectedMonth.toLocaleString('default', { month: 'long' }); 
 
   const fetchMoodData = () => {
     let startDate, endDate;
@@ -156,7 +157,7 @@ function MoodsChart({ updateGraph }) {
   };
 
   return (
-    <div className="chart-container" style={{ overflowX: 'auto' }}>
+    <div className="chart-container" style={{ overflowX: 'auto', backgroundColor: '#f5f5f5', padding: '20px', borderRadius: '5px', width: '80%', margin: '0 auto' }}>
       <Container className="mt-5">
         <Row className="mb-3">
           <Col xs={4}>
@@ -165,7 +166,7 @@ function MoodsChart({ updateGraph }) {
             </button>
           </Col>
           <Col xs={4} className="d-flex justify-content-center align-items-center">
-            <h1>Mood Chart</h1>
+            <h1>Mood Chart: {currentMonth}</h1>
           </Col>
           <Col xs={4} className="d-flex justify-content-end">
             <button className="btn btn-primary" onClick={handleNextMonth}>
