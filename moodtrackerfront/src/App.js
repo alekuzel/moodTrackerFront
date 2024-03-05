@@ -21,11 +21,11 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/details" element={<Notes />} />
           
-            {/* Add routes for login and registration */}
+            {/*Routes for login and registration */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
-          {/* Include LogoutButton component here */}
+          
          
         </div>
         <div> <Footer /></div>
