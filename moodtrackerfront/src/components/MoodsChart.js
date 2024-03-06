@@ -7,7 +7,7 @@ function MoodsChart({ updateGraph }) {
   const [moodData, setMoodData] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const chartRef = useRef(null);
-  const currentMonth = selectedMonth.toLocaleString('default', { month: 'long' });
+  const currentMonth = selectedMonth.toLocaleString('en-US', { month: 'long' });
 
   const fetchMoodData = () => {
     let startDate, endDate;
@@ -51,13 +51,15 @@ function MoodsChart({ updateGraph }) {
 
     const labels = Array.from({ length: numDaysInMonth }, (_, index) => index + 1);
 
-    const averageMood = new Array(numDaysInMonth).fill(null);
+    const lowMood = new Array(numDaysInMonth).fill(null);
+    const highMood = new Array(numDaysInMonth).fill(null);
     const hoursOfSleep = new Array(numDaysInMonth).fill(null);
     const minutesOfPhysicalActivity = new Array(numDaysInMonth).fill(null);
 
     filteredMoodData.forEach((mood) => {
       const dayOfMonth = new Date(mood.date).getDate();
-      averageMood[dayOfMonth - 1] = (mood.high + mood.low) / 2;
+      lowMood[dayOfMonth - 1] = mood.low;
+      highMood[dayOfMonth - 1] = mood.high;
       hoursOfSleep[dayOfMonth - 1] = mood.sleep;
       minutesOfPhysicalActivity[dayOfMonth - 1] = mood.move;
     });
@@ -69,23 +71,34 @@ function MoodsChart({ updateGraph }) {
         labels: labels,
         datasets: [
           {
-            label: 'Mood',
-            data: averageMood,
-            borderColor: 'rgb(199, 0, 57)',
+            label: 'Low Mood',
+            data: lowMood,
+            borderColor: 'rgb(241, 22, 8)',
+            borderWidth: 1,
+            tension: 0.1,
+            yAxisID: 'mood',
+          },
+          {
+            label: 'High Mood',
+            data: highMood,
+            borderColor: 'rgb(58, 240, 4)',
+            borderWidth: 1,
             tension: 0.1,
             yAxisID: 'mood',
           },
           {
             label: 'Hours of Sleep',
             data: hoursOfSleep,
-            borderColor: 'rgb(75, 192, 192)',
+            borderColor: 'rgb(255, 205, 86)',
+            borderWidth: 1,
             tension: 0.1,
             yAxisID: 'hoursOfSleep',
           },
           {
             label: 'Minutes of Physical Activity',
             data: minutesOfPhysicalActivity,
-            borderColor: 'rgb(255, 205, 86)',
+            borderColor: 'rgb(54, 162, 235)',
+            borderWidth: 1,
             tension: 0.1,
             yAxisID: 'minutesOfPhysicalActivity',
           },
@@ -140,7 +153,6 @@ function MoodsChart({ updateGraph }) {
   }, [moodData, selectedMonth]);
 
   useEffect(() => {
-    // Listen for changes triggered by updateGraph
     renderChart();
   }, [updateGraph]);
 
@@ -170,7 +182,7 @@ function MoodsChart({ updateGraph }) {
             </button>
           </Col>
           <Col xs={4} className="d-flex justify-content-center align-items-center">
-            <h1>Mood Chart: {currentMonth}</h1>
+            <h1>{currentMonth}</h1>
           </Col>
           <Col xs={4} className="d-flex justify-content-end">
             <button className="btn btn-primary" onClick={handleNextMonth}>
